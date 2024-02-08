@@ -1,0 +1,16 @@
+{% extends 'main/home.html' %} 
+  {% block content %}
+    {% if user.is_authenticated %}
+        <h2>{{user}} reviews:</h2>
+        <div class="reviews">
+          {% for review in reviews %}
+            <div class="review-card">
+              <div class="name">{{review.movie}} ({{review.user_rating}})</div>
+              <div class="review">{{review.user_review}}</div>
+            </div>
+          {% endfor %}
+    {% else %}
+    <p>please login</p>
+  {% endif %}
+</div>
+{% endblock %}

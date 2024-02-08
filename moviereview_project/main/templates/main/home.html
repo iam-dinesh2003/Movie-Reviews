@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Home</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    {% comment %} navbar {% endcomment %}
+    <div class="navbar">
+      <a href="{% url 'main:home' %}">Home</a>
+      <a href="{% url 'main:my_reviews' %}">My reviews</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'account:logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'account:login' %}">Login</a>
+      {% endif %}
+      <a href="{% url 'account:register' %}">Register</a>
+    </div>
+
+    {% comment %} body {% endcomment %}
+    <div class="container">
+      {% block content %}
+      {% comment %} 
+      <div class="slideshow">
+        <div class="slideshow-heading">New Releases</div>
+        <img src="https://live.staticflickr.com/65535/52996395070_f846a0b484_b.jpg"></img>
+      </div> 
+      {% endcomment %}
+      <div class="card-container-heading">All Movies</div>
+      <div class="card-container">
+        {% for movie in movies %}
+          <div class="card hover">
+            <a href="{% url 'main:movie' movie.id %}"><img src="{{movie.movie_src}}"></img></a>
+          </div>
+        {% endfor %}
+      </div>
+      {% endblock %}
+    </div>
+  </body>
+</html>

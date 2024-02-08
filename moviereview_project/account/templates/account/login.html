@@ -1,0 +1,13 @@
+{% extends 'main/home.html' %}
+
+{% block content %}
+    <h3>Login</h3>
+    <form method="post" class="form-class">
+      {% csrf_token %}
+      <input placeholder="username" name="username"></input>
+      <input placeholder="password" name="password"></input>
+      <button type="submit">Login</button>
+      <p>valid login navigates to homepage</p>
+      <p>invalid login will realoads login page</div>
+    </form>
+{% endblock %}

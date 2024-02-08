@@ -1,0 +1,60 @@
+{% extends 'main/home.html' %}
+
+{% block content %}
+    <div class="movie-card">
+        <div class="card-container">
+            <div class="card">
+            <img src="{{movie.movie_src}}"></img>
+            </div>
+        </div>
+        <div class="desc">
+            <div>
+                <div class="name">{{movie.movie_name}}</div>
+                <div class="direct">{{movie.movie_director}}</div>
+            </div>
+            {% if no_rating %}
+            <div class="rating">N/A</div> 
+            {% else %}
+            <div class="rating">{{movie.average_rating}}</div>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if user.is_authenticated %}
+    <div class="add-review-conatiner">
+        {% if already_exists %}
+            review already given
+        {% else %}
+            <h4>Add your review</h4>
+            <form method="post" class="add-review">
+                {% csrf_token %}
+                <input type="text" placeholder="{{user}} review for {{movie.movie_name}} is" name="review"></input>
+                
+                <div class="slider">
+                    <input type="range" min="1" max="5" step="0.5" oninput="updateSliderValue(this.value)" name="rating">
+                    <div id="sliderValue">3</div>
+                </div>
+                <button type="submit">submit</button>
+            </form>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% if no_rating %}
+    {% else %}
+        <h3>All movie reviews:</h3>
+        <div class="reviews">
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="name">{{review.user}} ({{review.user_rating}})</div>
+                <div class="review">{{review.user_review}}</div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <script>
+        function updateSliderValue(value) {
+            document.getElementById("sliderValue").innerText = value;
+        }
+    </script>
+{% endblock %}
